@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Submission Index - Pahadi Guide</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #94a3b8;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px;
+            background: linear-gradient(180deg, rgba(16, 185, 129, 0.05) 0%, transparent 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, #10b981 50%, #f97316 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 18px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        h2 {
+            color: #10b981;
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .file-card {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .file-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
+        }
+
+        .file-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .file-name {
+            color: #10b981;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .file-desc {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .file-size {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 8px 8px 8px 0;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .status {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 12px;
+            margin: 8px 0;
+            background: rgba(16, 185, 129, 0.05);
+            border-left: 3px solid #10b981;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .checklist li::before {
+            content: "✅ ";
+            margin-right: 8px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: rgba(249, 115, 22, 0.05);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #f97316;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏔️ Blog Submission Index</h1>
+            <p class="subtitle">Technical Blog for AWS Builder Center - Pahadi Guide Project</p>
+            <p style="margin-top: 20px; color: #64748b;">Kiro Heroes Week 5 Challenge: "The Local Guide"</p>
+        </div>
+
+        <div class="section">
+            <h2>📄 Main Blog Files</h2>
+            <div class="file-grid">
+                <div class="file-card">
+                    <div class="file-icon">📝</div>
+                    <div class="file-name">technical_blog_aws.html</div>
+                    <div class="file-desc">
+                        Fully formatted HTML blog with embedded CSS, screenshots, and syntax highlighting.
+                        <strong>This is the primary submission file.</strong>
+                    </div>
+                    <div class="file-size">27.1 KB • Ready to publish</div>
+                    <div style="margin-top: 12px;">
+                        <a href="technical_blog_aws.html" class="btn">Open Blog</a>
+                    </div>
+                </div>
+
+                <div class="file-card">
+                    <div class="file-icon">📋</div>
+                    <div class="file-name">technical_blog_aws.md</div>
+                    <div class="file-desc">
+                        Markdown version of the blog for easy editing and version control.
+                        Alternative format for platforms that prefer markdown.
+                    </div>
+                    <div class="file-size">17.0 KB • Markdown format</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📚 Documentation Files</h2>
+            <div class="file-grid">
+                <div class="file-card">
+                    <div class="file-icon">📖</div>
+                    <div class="file-name">SUBMISSION_SUMMARY.md</div>
+                    <div class="file-desc">
+                        Comprehensive summary of all created files, visual assets, key highlights,
+                        and next steps for the blog submission.
+                    </div>
+                    <div class="file-size">11.1 KB • Summary document</div>
+                </div>
+
+                <div class="file-card">
+                    <div class="file-icon">📦</div>
+                    <div class="file-name">BLOG_SUBMISSION.md</div>
+                    <div class="file-desc">
+                        Detailed submission guide explaining blog structure, visual assets,
+                        and why this blog is valuable for AWS Builder Center.
+                    </div>
+                    <div class="file-size">10.4 KB • Submission guide</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🖼️ Visual Assets</h2>
+            <p style="margin-bottom: 20px; color: #94a3b8;">
+                All screenshots and images are located in:<br>
+                <code style="background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px;">
+                    C:/Users/pahad/.gemini/antigravity/brain/e0e3f77f-ecaf-4356-b36b-4975aa3596c9/
+                </code>
+            </p>
+
+            <div class="file-grid">
+                <div class="file-card">
+                    <div class="file-icon">📸</div>
+                    <div class="file-name">sidebar_expanded.png</div>
+                    <div class="file-desc">
+                        Main interface showing all 4 context files loaded, demo mode status,
+                        and dark glassmorphism theme.
+                    </div>
+                    <div class="file-size">Screenshot 1</div>
+                </div>
+
+                <div class="file-card">
+                    <div class="file-icon">💬</div>
+                    <div class="file-name">chat_interaction.png</div>
+                    <div class="file-desc">
+                        Regional detection in action - shows Kumaoni slang usage,
+                        specific vendor recommendations, and Maggi Refusal Protocol.
+                    </div>
+                    <div class="file-size">Screenshot 2</div>
+                </div>
+
+                <div class="file-card">
+                    <div class="file-icon">🎨</div>
+                    <div class="file-name">context_steering_infographic.png</div>
+                    <div class="file-desc">
+                        Professional infographic showing how product.md steers AI behavior
+                        with architecture diagram and key benefits.
+                    </div>
+                    <div class="file-size">Infographic</div>
+                </div>
+
+                <div class="file-card">
+                    <div class="file-icon">🖼️</div>
+                    <div class="file-name">blog_cover_image.png</div>
+                    <div class="file-desc">
+                        Professional cover image for the blog with AWS Builder Center branding,
+                        split-screen design, and tech stack badges.
+                    </div>
+                    <div class="file-size">Cover Image</div>
+                </div>
+
+                <div class="file-card">
+                    <div class="file-icon">🎬</div>
+                    <div class="file-name">pahadi_guide_demo.webp</div>
+                    <div class="file-desc">
+                        Video recording showing complete interaction flow with the application,
+                        including sidebar expansion and chat interaction.
+                    </div>
+                    <div class="file-size">Video Recording</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📊 Blog Statistics</h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value">~4,500</div>
+                    <div class="stat-label">Words</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">Code Examples</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Screenshots</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">11</div>
+                    <div class="stat-label">Major Sections</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">~15</div>
+                    <div class="stat-label">Min Read Time</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>✅ Submission Checklist</h2>
+            <ul class="checklist">
+                <li>Technical blog written (HTML + Markdown)</li>
+                <li>Screenshots captured showing UI and functionality</li>
+                <li>Infographic created for visual explanation</li>
+                <li>Cover image designed for blog header</li>
+                <li>Code examples included with explanations</li>
+                <li>Architecture diagram provided</li>
+                <li>product.md usage explained in detail</li>
+                <li>Visual proof of regional detection</li>
+                <li>Performance metrics included</li>
+                <li>Challenges and solutions documented</li>
+                <li>Quick start guide provided</li>
+                <li>Tags and metadata added</li>
+                <li>Submission documentation created</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Key Highlights</h2>
+            <div style="margin-top: 20px;">
+                <h3 style="color: #fff; font-size: 18px; margin-bottom: 12px;">What the Blog Explains:</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 8px 0; color: #94a3b8;">
+                        🎯 <strong style="color: #10b981;">Context Supremacy:</strong> How product.md overrides generic
+                        LLM knowledge
+                    </li>
+                    <li style="padding: 8px 0; color: #94a3b8;">
+                        🗣️ <strong style="color: #10b981;">Regional Awareness:</strong> Auto-detection of Garhwal vs
+                        Kumaon with slang switching
+                    </li>
+                    <li style="padding: 8px 0; color: #94a3b8;">
+                        🍲 <strong style="color: #10b981;">Behavioral Steering:</strong> The "Maggi Refusal Protocol" in
+                        action
+                    </li>
+                    <li style="padding: 8px 0; color: #94a3b8;">
+                        🚗 <strong style="color: #10b981;">Safety-First:</strong> Honest refusal patterns to prevent
+                        hallucinations
+                    </li>
+                    <li style="padding: 8px 0; color: #94a3b8;">
+                        📊 <strong style="color: #10b981;">Performance Metrics:</strong> Token usage, response times,
+                        scalability
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🚀 Next Steps</h2>
+            <div style="margin-top: 20px;">
+                <h3 style="color: #fff; font-size: 18px; margin-bottom: 12px;">To Submit:</h3>
+                <ol style="color: #94a3b8; line-height: 2;">
+                    <li>Review <code>technical_blog_aws.html</code> in your browser</li>
+                    <li>Verify all screenshots are displaying correctly</li>
+                    <li>Submit to AWS Builder Center with all visual assets</li>
+                    <li>Share on social media with the blog link</li>
+                </ol>
+
+                <div style="margin-top: 24px;">
+                    <a href="technical_blog_aws.html" class="btn">📝 Open Main Blog</a>
+                    <a href="SUBMISSION_SUMMARY.md" class="btn"
+                        style="background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);">📖 Read Summary</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔗 Related Project Files</h2>
+            <div style="margin-top: 20px; color: #94a3b8; line-height: 2;">
+                <p><strong style="color: #10b981;">Application Files:</strong></p>
+                <ul>
+                    <li><code>app.py</code> - Main Streamlit application (22.8 KB)</li>
+                    <li><code>.kiro/product.md</code> - Master knowledge base (8.6 KB)</li>
+                    <li><code>.kiro/system.md</code> - Agent persona and rules (4.8 KB)</li>
+                    <li><code>README.md</code> - Project documentation (3.6 KB)</li>
+                    <li><code>requirements.txt</code> - Python dependencies</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p style="font-size: 18px; color: #10b981; font-weight: 600; margin-bottom: 12px;">
+                🏔️ Built with ❤️ for Devbhoomi Uttarakhand 🏔️
+            </p>
+            <p>Submitted for <strong>Kiro Heroes Week 5 Challenge</strong></p>
+            <p style="margin-top: 20px; font-size: 14px;">
+                December 27, 2025 • Pahadiya Developer
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building a Hyper-Local AI Guide with Context Steering | AWS Builder Center</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --accent-green: #10b981;
+            --accent-emerald: #34d399;
+            --accent-orange: #f97316;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.08);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px 20px;
+            background: linear-gradient(180deg, rgba(16, 185, 129, 0.05) 0%, transparent 100%);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--accent-emerald);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-family: 'Space Mono', monospace;
+            font-size: 42px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-emerald) 50%, var(--accent-orange) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        
+        .meta {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 20px;
+        }
+        
+        .meta span {
+            margin: 0 12px;
+        }
+        
+        h2 {
+            color: var(--accent-emerald);
+            font-size: 28px;
+            font-weight: 700;
+            margin: 50px 0 20px 0;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        h3 {
+            color: var(--text-primary);
+            font-size: 20px;
+            font-weight: 600;
+            margin: 30px 0 15px 0;
+        }
+        
+        p {
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+        }
+        
+        strong {
+            color: var(--accent-emerald);
+            font-weight: 600;
+        }
+        
+        .tldr {
+            background: rgba(249, 115, 22, 0.05);
+            border-left: 4px solid var(--accent-orange);
+            padding: 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 30px 0;
+        }
+        
+        .tldr h2 {
+            border: none;
+            margin-top: 0;
+            color: var(--accent-orange);
+        }
+        
+        ul, ol {
+            margin: 16px 0 16px 24px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        code {
+            font-family: 'Space Mono', monospace;
+            background: var(--bg-card);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--accent-emerald);
+            font-size: 14px;
+        }
+        
+        pre {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-secondary);
+        }
+        
+        .screenshot {
+            margin: 30px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+        }
+        
+        .screenshot img {
+            width: 100%;
+            display: block;
+        }
+        
+        .screenshot-caption {
+            padding: 16px;
+            background: rgba(16, 185, 129, 0.05);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .highlight-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+        
+        .highlight-box h3 {
+            margin-top: 0;
+            color: var(--accent-emerald);
+        }
+        
+        .code-block {
+            position: relative;
+        }
+        
+        .code-lang {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-emerald);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .architecture {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .key-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin: 24px 0;
+        }
+        
+        .key-point {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .key-point h4 {
+            color: var(--accent-emerald);
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .tags {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .tag {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-emerald);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin: 4px;
+        }
+        
+        a {
+            color: var(--accent-emerald);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+        
+        a:hover {
+            border-bottom-color: var(--accent-emerald);
+        }
+        
+        blockquote {
+            border-left: 3px solid var(--accent-green);
+            background: rgba(16, 185, 129, 0.05);
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        th {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-emerald);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="badge">🏔️ AWS Builder Center</div>
+            <h1>Building a Hyper-Local AI Guide with Context Steering</h1>
+            <p style="font-size: 18px; color: var(--text-primary); margin-top: 16px;">
+                A Deep Dive into Using Kiro's product.md for AI Agent Steering
+            </p>
+            <div class="meta">
+                <span>📅 December 27, 2025</span>
+                <span>•</span>
+                <span>👤 Pahadiya Developer</span>
+                <span>•</span>
+                <span>⏱️ 15 min read</span>
+            </div>
+        </div>
+
+        <div class="tldr">
+            <h2>TL;DR</h2>
+            <p>I built <strong>Pahadi Guide</strong>, an AI-powered local companion for Uttarakhand, India, that demonstrates how strategic context files can transform a generic LLM into a domain expert. Using Kiro's <code>.kiro/</code> directory pattern and the <code>product.md</code> file as a "single source of truth," the agent automatically adapts its personality, vocabulary, and recommendations based on detected regions—all without fine-tuning.</p>
+            
+            <div class="key-points">
+                <div class="key-point">
+                    <h4>🎯 Context Supremacy</h4>
+                    <p>product.md overrides generic LLM knowledge</p>
+                </div>
+                <div class="key-point">
+                    <h4>🗣️ Regional Awareness</h4>
+                    <p>Auto-detects Garhwal vs Kumaon and switches slang</p>
+                </div>
+                <div class="key-point">
+                    <h4>🍲 Behavioral Steering</h4>
+                    <p>"Maggi Refusal Protocol" redirects to authentic cuisine</p>
+                </div>
+                <div class="key-point">
+                    <h4>🚗 Safety-First</h4>
+                    <p>Refuses to hallucinate about roads/weather</p>
+                </div>
+            </div>
+            
+            <p><strong>Tech Stack:</strong> Python, Streamlit, Groq (Llama 3.3 70B), Markdown-based context files</p>
+        </div>
+
+        <h2>The Problem: Generic Travel Bots Are Useless</h2>
+        <p>Traditional travel chatbots fail at hyper-local knowledge. Ask them about Uttarakhand and you'll get:</p>
+        <ul>
+            <li>Generic recommendations (Maggi at viewpoints 🙄)</li>
+            <li>No understanding of regional dialects (Garhwali vs Kumaoni)</li>
+            <li>Dangerous hallucinations about road conditions</li>
+            <li>Zero cultural nuance</li>
+        </ul>
+        <p><strong>The Challenge:</strong> How do you make an LLM act like a true local without expensive fine-tuning?</p>
+
+        <h2>The Solution: Context Steering with product.md</h2>
+        
+        <h3>Architecture Overview</h3>
+        <div class="architecture">
+krio/
+├── .kiro/                    # The Brain 🧠
+│   ├── product.md           # Master Knowledge Base (8.6KB)
+│   ├── system.md            # Agent Persona & Rules (4.8KB)
+│   ├── garhwal_context.md   # Garhwal-specific data
+│   └── kumaon_context.md    # Kumaon-specific data
+├── app.py                   # Streamlit Application
+├── requirements.txt
+└── .env.example
+        </div>
+
+        <h3>The Magic: product.md as Single Source of Truth</h3>
+        <p>The <code>product.md</code> file is a <strong>199-line structured knowledge base</strong> that contains:</p>
+        <ol>
+            <li><strong>Linguistic Matrix</strong> - Regional greetings, kinship terms, filler words</li>
+            <li><strong>Culinary Anthropology</strong> - Authentic dishes with specific vendor locations</li>
+            <li><strong>Mobility Algorithms</strong> - Hill Time calculations, shared jeep protocols</li>
+            <li><strong>Geospatial Intelligence</strong> - Hidden gems vs tourist traps</li>
+            <li><strong>Safety Protocols</strong> - Scam awareness, monsoon warnings</li>
+            <li><strong>Terminology Glossary</strong> - Local vocabulary</li>
+        </ol>
+
+        <p>Here's a snippet showing the level of detail:</p>
+        <div class="code-block">
+            <div class="code-lang">Markdown</div>
+            <pre><code>### 1.2 Kinship Terms (CRITICAL for rapport)
+**In Garhwal:**
+- **Bhulla** = Younger Brother (USE THIS for waiters, shopkeepers, drivers)
+- **Bhaiji** = Elder Brother
+- **Didi** = Elder Sister
+
+**In Kumaon:**
+- **Daju** = Elder Brother (universal respect marker)
+- **Bhe/Bhula** = Younger Brother
+- **Bubu** = Elder Sister
+
+> **TIP:** Calling a waiter "Bhulla" in Dehradun or "Daju" in Nainital 
+> changes the entire interaction—better service, better prices.</code></pre>
+        </div>
+
+        <h2>Implementation Deep Dive</h2>
+
+        <h3>1. Context Loading System</h3>
+        <p>The application loads all context files at startup:</p>
+        <div class="code-block">
+            <div class="code-lang">Python</div>
+            <pre><code>def load_context_files():
+    context = {}
+    kiro_dir = Path(__file__).parent / ".kiro"
+    for f in ["product.md", "system.md", "garhwal_context.md", "kumaon_context.md"]:
+        fp = kiro_dir / f
+        context[f.replace(".md", "")] = fp.read_text(encoding="utf-8") if fp.exists() else ""
+    return context</code></pre>
+        </div>
+        <div class="highlight-box">
+            <h3>Why this matters</h3>
+            <p>All knowledge is version-controlled, human-readable, and easily updatable without touching code.</p>
+        </div>
+
+        <h3>2. Regional Detection Engine</h3>
+        <p>The agent automatically detects which region the user is asking about:</p>
+        <div class="code-block">
+            <div class="code-lang">Python</div>
+            <pre><code>def detect_region(text: str) -> str:
+    t = text.lower()
+    g = ["dehradun", "mussoorie", "rishikesh", "haridwar", "tehri", 
+         "uttarkashi", "chamoli", "rudraprayag", "pauri", "lansdowne", 
+         "gangotri", "yamunotri", "kedarnath", "badrinath", "garhwal", 
+         "landour", "dhanaulti"]
+    k = ["nainital", "almora", "pithoragarh", "bageshwar", "champawat", 
+         "kathgodam", "bhimtal", "sattal", "naukuchiatal", "ranikhet", 
+         "munsiyari", "kumaon", "binsar", "jageshwar", "kausani"]
+    gs, ks = sum(1 for x in g if x in t), sum(1 for x in k if x in t)
+    return "garhwal" if gs > ks else "kumaon" if ks > gs else "general"</code></pre>
+        </div>
+        <blockquote>
+            <strong>Result:</strong> When you ask about Almora (Kumaon), the agent responds with "Pailag, Daju!" instead of "Semanya, Bhulla!" (Garhwal).
+        </blockquote>
+
+        <h3>3. Dynamic System Prompt Construction</h3>
+        <p>The system prompt is built on-the-fly based on detected region:</p>
+        <div class="code-block">
+            <div class="code-lang">Python</div>
+            <pre><code>def get_system_prompt(ctx: dict, region: str) -> str:
+    base = ctx.get("system", "")
+    prod = ctx.get("product", "")
+    if region == "garhwal":
+        rc, ri = ctx.get("garhwal_context", ""), "GARHWAL: Use Bhulla, Bal, Semanya."
+    elif region == "kumaon":
+        rc, ri = ctx.get("kumaon_context", ""), "KUMAON: Use Daju, Thehra, Pailag."
+    else:
+        rc, ri = ctx.get("garhwal_context", "") + ctx.get("kumaon_context", ""), "GENERAL"
+    return f"{base}\n\n{ri}\n\n{prod}\n\n{rc}"</code></pre>
+        </div>
+        <div class="highlight-box">
+            <h3>The Power</h3>
+            <p>The LLM receives different instructions based on context, ensuring region-appropriate responses.</p>
+        </div>
+
+        <h3>4. The "Maggi Refusal Protocol"</h3>
+        <p>One of the most interesting behavioral patterns defined in <code>system.md</code>:</p>
+        <div class="code-block">
+            <div class="code-lang">Markdown</div>
+            <pre><code>### 3. CULINARY STEERING (The Maggi Refusal Protocol)
+When asked for food recommendations:
+1. ACKNOWLEDGE that Maggi/Momos are popular with tourists
+2. IMMEDIATELY PIVOT to authentic Pahadi cuisine
+3. EXPLAIN why local food is better (nutrition, culture, uniqueness)
+4. RECOMMEND specific authentic sources (e.g., Kheem Singh for Bal Mithai)</code></pre>
+        </div>
+        <p><strong>In Action:</strong></p>
+        <ul>
+            <li><strong>User:</strong> "What to eat in Almora?"</li>
+            <li><strong>Agent:</strong> Acknowledges tourist food exists, then steers to Bal Mithai from Kheem Singh's shop on Mall Road, Bhatt ki Churkani, Aloo ke Gutke, and Singori.</li>
+        </ul>
+
+        <h2>Visual Proof: The Application in Action</h2>
+
+        <div class="screenshot">
+            <img src="file:///C:/Users/pahad/.gemini/antigravity/brain/e0e3f77f-ecaf-4356-b36b-4975aa3596c9/sidebar_expanded_1766858236837.png" alt="Pahadi Guide Main Interface">
+            <div class="screenshot-caption">
+                <strong>Screenshot 1: Main Interface with Context Files</strong><br>
+                ✅ All 4 context files loaded successfully (green checkmarks)<br>
+                🎮 Demo Mode active (works without API key)<br>
+                🏔️ Dark theme with glassmorphism design<br>
+                Quick action buttons for common queries
+            </div>
+        </div>
+
+        <div class="screenshot">
+            <img src="file:///C:/Users/pahad/.gemini/antigravity/brain/e0e3f77f-ecaf-4356-b36b-4975aa3596c9/chat_interaction_1766858276750.png" alt="Chat Interaction - Kumaon Region">
+            <div class="screenshot-caption">
+                <strong>Screenshot 2: Regional Detection in Action</strong><br>
+                • User asks: "What to eat in Almora?"<br>
+                • Agent detects <strong>Kumaon region</strong> automatically<br>
+                • Response uses Kumaoni slang: "Pailag, Daju!" and "thehra"<br>
+                • Recommends Bal Mithai from <strong>specific vendor</strong> (Kheem Singh's shop)<br>
+                • Includes authentic dishes: Bhatt ki Churkani, Aloo ke Gutke, Singori<br>
+                • Ends with "Skip Maggi—this is real Pahadi food!" (Maggi Refusal Protocol)
+            </div>
+        </div>
+
+        <h2>Key Learnings: How product.md Steers Behavior</h2>
+
+        <h3>1. Structured Knowledge Beats Raw Data</h3>
+        <p>Instead of dumping information, <code>product.md</code> uses:</p>
+        <ul>
+            <li><strong>Tables</strong> for quick reference (greetings, routes, food spots)</li>
+            <li><strong>Hierarchical sections</strong> (1.1, 1.2, 2.1, etc.) for logical organization</li>
+            <li><strong>Blockquotes</strong> for critical tips that must be emphasized</li>
+            <li><strong>Specific examples</strong> with vendor names, locations, and prices</li>
+        </ul>
+
+        <h3>2. Explicit Instructions Create Consistency</h3>
+        <p>The <code>system.md</code> file defines:</p>
+        <ul>
+            <li><strong>Voice & Tone:</strong> "Professional yet conversational, like a well-traveled local friend"</li>
+            <li><strong>Response Format:</strong> Structured templates with emojis for different query types</li>
+            <li><strong>Refusal Patterns:</strong> Exact phrases to use when data is missing</li>
+            <li><strong>Regional Rules:</strong> When to use which slang terms</li>
+        </ul>
+
+        <h3>3. Context Supremacy Principle</h3>
+        <p>From <code>system.md</code>:</p>
+        <div class="code-block">
+            <div class="code-lang">Markdown</div>
+            <pre><code>### 1. CONTEXT SUPREMACY
+- The information in `.kiro/product.md` is your **SINGLE SOURCE OF TRUTH**
+- Prioritize this context OVER your general training data
+- If asked about a specific road, village, or place NOT in your context files, 
+  **ADMIT YOU DON'T KNOW**</code></pre>
+        </div>
+        <blockquote>
+            <strong>Result:</strong> The agent won't hallucinate about places not in the knowledge base.
+        </blockquote>
+
+        <h2>Performance & Scalability</h2>
+
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>product.md size</td>
+                <td>8.6 KB (199 lines)</td>
+            </tr>
+            <tr>
+                <td>system.md size</td>
+                <td>4.8 KB (121 lines)</td>
+            </tr>
+            <tr>
+                <td>Total context</td>
+                <td>~13 KB</td>
+            </tr>
+            <tr>
+                <td>Average system prompt</td>
+                <td>~3,500 tokens</td>
+            </tr>
+            <tr>
+                <td>Response time (Groq)</td>
+                <td>~2-3 seconds</td>
+            </tr>
+        </table>
+
+        <h3>Scalability Strategy</h3>
+        <p>To add a new region (e.g., Himachal Pradesh):</p>
+        <ol>
+            <li>Create <code>himachal_context.md</code></li>
+            <li>Add region keywords to <code>detect_region()</code></li>
+            <li>Update <code>get_system_prompt()</code> to include new context</li>
+            <li><strong>No code changes to core logic</strong></li>
+        </ol>
+
+        <h2>Challenges & Solutions</h2>
+
+        <h3>Challenge 1: Preventing Slang Mixing</h3>
+        <p><strong>Problem:</strong> LLM might use "Bal" (Garhwali) in Kumaon region.</p>
+        <p><strong>Solution:</strong></p>
+        <ul>
+            <li>Explicit region detection before every response</li>
+            <li>System prompt includes: "NEVER mix these. Using 'Bal' in Kumaon is a dead giveaway you're not local."</li>
+            <li>Regional context files loaded conditionally</li>
+        </ul>
+
+        <h3>Challenge 2: Keeping Knowledge Current</h3>
+        <p><strong>Problem:</strong> Restaurant closures, road conditions change.</p>
+        <p><strong>Solution:</strong></p>
+        <ul>
+            <li>All knowledge in version-controlled markdown files</li>
+            <li>Non-technical team members can update <code>product.md</code></li>
+            <li>Git history tracks all changes</li>
+        </ul>
+
+        <h3>Challenge 3: Balancing Personality vs Accuracy</h3>
+        <p><strong>Problem:</strong> Too much personality → hallucinations. Too little → boring.</p>
+        <p><strong>Solution:</strong></p>
+        <ul>
+            <li>Define exact refusal phrases in <code>system.md</code></li>
+            <li>Use structured response templates</li>
+            <li>Include "Local Tip" sections for personality without sacrificing accuracy</li>
+        </ul>
+
+        <h2>Lessons for Building Context-Steered AI</h2>
+
+        <div class="key-points">
+            <div class="key-point">
+                <h4>1. Start with the Knowledge Base</h4>
+                <p>Write product.md BEFORE coding. This forces you to define scope, identify gaps, and structure information logically.</p>
+            </div>
+            <div class="key-point">
+                <h4>2. Make Context Human-Readable</h4>
+                <p>Use markdown, not JSON. Benefits: non-developers can contribute, easy to review in PRs, natural language is easier to maintain.</p>
+            </div>
+            <div class="key-point">
+                <h4>3. Build Fallbacks from Day One</h4>
+                <p>Demo mode isn't just for testing—it's a feature. Works offline, no API costs, instant gratification.</p>
+            </div>
+            <div class="key-point">
+                <h4>4. Test Regional Edge Cases</h4>
+                <p>What happens at Garhwal-Kumaon border? Our solution: Default to "general" mode with both contexts.</p>
+            </div>
+        </div>
+
+        <h2>Conclusion</h2>
+        <p>Building <strong>Pahadi Guide</strong> taught me that <strong>context is king</strong> in AI applications. By investing time in a well-structured <code>product.md</code> file and clear behavioral rules in <code>system.md</code>, I transformed a generic LLM into a hyper-local expert that:</p>
+        
+        <ul>
+            <li>✅ Speaks like a local (region-appropriate slang)</li>
+            <li>✅ Recommends like a local (specific vendors, hidden gems)</li>
+            <li>✅ Refuses like a local (admits when it doesn't know)</li>
+            <li>✅ Protects like a local (safety warnings, scam awareness)</li>
+        </ul>
+
+        <div class="highlight-box">
+            <h3>The best part?</h3>
+            <p>No fine-tuning, no vector databases, no complex RAG pipelines. Just markdown files and strategic prompting.</p>
+        </div>
+
+        <h2>Try It Yourself</h2>
+        <div class="code-block">
+            <div class="code-lang">Bash</div>
+            <pre><code>git clone https://github.com/yourusername/pahadi-guide
+cd pahadi-guide
+pip install -r requirements.txt
+streamlit run app.py</code></pre>
+        </div>
+
+        <p><strong>Get a free Groq API key:</strong> <a href="https://console.groq.com/" target="_blank">console.groq.com</a></p>
+
+        <div class="tags">
+            <span class="tag">#AI</span>
+            <span class="tag">#GenerativeAI</span>
+            <span class="tag">#LLM</span>
+            <span class="tag">#ContextSteering</span>
+            <span class="tag">#Kiro</span>
+            <span class="tag">#Streamlit</span>
+            <span class="tag">#Python</span>
+            <span class="tag">#TravelTech</span>
+            <span class="tag">#LocalKnowledge</span>
+            <span class="tag">#Uttarakhand</span>
+        </div>
+
+        <div class="footer">
+            <p><strong>Built with ❤️ for Devbhoomi Uttarakhand 🏔️</strong></p>
+            <p style="margin-top: 20px;">
+                This project was built for the <strong>Kiro Heroes Week 5 Challenge</strong><br>
+                and represents my love for Uttarakhand's rich heritage.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
